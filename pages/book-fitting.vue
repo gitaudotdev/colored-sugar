@@ -1,3 +1,60 @@
+<script setup lang="ts">
+const form = reactive({
+  fullName: '',
+  email: '',
+  phone: '',
+  occasionDate: '',
+  garmentType: 'Occasion wear',
+  consultationPreference: 'WhatsApp follow-up',
+  budget: '',
+  location: 'Nairobi',
+  inspirationLinks: '',
+  notes: '',
+  whatsappOptIn: true
+})
+
+const isSubmitting = ref(false)
+const errorMessage = ref('')
+const successMessage = ref('')
+const inquiryReference = ref('')
+
+async function submitInquiry() {
+  isSubmitting.value = true
+  errorMessage.value = ''
+  successMessage.value = ''
+
+  try {
+    const response = await $fetch<{ inquiry: { reference: string } }>('/api/inquiries', {
+      method: 'POST',
+      body: {
+        ...form,
+        inspirationLinks: form.inspirationLinks
+      }
+    })
+
+    inquiryReference.value = response.inquiry.reference
+    successMessage.value = 'Inquiry received. The studio can now move this into consultation and production tracking.'
+
+    form.fullName = ''
+    form.email = ''
+    form.phone = ''
+    form.occasionDate = ''
+    form.garmentType = 'Occasion wear'
+    form.consultationPreference = 'WhatsApp follow-up'
+    form.budget = ''
+    form.location = 'Nairobi'
+    form.inspirationLinks = ''
+    form.notes = ''
+    form.whatsappOptIn = true
+  } catch (error) {
+    errorMessage.value =
+      error instanceof Error ? error.message : 'The inquiry could not be submitted right now. Please try again.'
+  } finally {
+    isSubmitting.value = false
+  }
+}
+</script>
+
 <template>
   <main class="section">
     <div class="container contact-grid">
@@ -18,38 +75,100 @@
             <p>Once the brief is reviewed, the next step is a fitting appointment or a consultation deposit, depending on the piece.</p>
           </div>
           <div>
-            <strong>Best Shopify fit</strong>
-            <p>Ready-to-order pieces can move directly to checkout, while custom commissions stay inquiry-led until details are approved.</p>
+            <strong>Production tracker</strong>
+            <p>Every inquiry can now move into a demo tracker that follows consultation, approvals, production, fitting, and delivery.</p>
           </div>
+        </div>
+
+        <div class="booking-actions">
+          <NuxtLink to="/studio-tracker" class="button button--ghost">Open studio tracker</NuxtLink>
         </div>
       </section>
 
       <section class="panel booking-form">
         <span class="tag">Inquiry form</span>
         <h2>Private fitting request</h2>
-        <form class="form-grid">
+
+        <form class="form-grid" @submit.prevent="submitInquiry">
           <label>
             Full name
-            <input type="text" placeholder="Client name" />
+            <input v-model="form.fullName" type="text" placeholder="Client name" />
           </label>
+
+          <label>
+            Email
+            <input v-model="form.email" type="email" placeholder="you@example.com" />
+          </label>
+
+          <label>
+            Phone / WhatsApp
+            <input v-model="form.phone" type="tel" placeholder="+254..." />
+          </label>
+
           <label>
             Occasion date
-            <input type="date" />
+            <input v-model="form.occasionDate" type="date" />
           </label>
+
           <label>
             Garment type
-            <select>
+            <select v-model="form.garmentType">
               <option>Bridal</option>
               <option>Occasion wear</option>
               <option>Executive wear</option>
-              <option>Ready-made alteration</option>
+              <option>Kimono / soft drape</option>
+              <option>Menswear</option>
+              <option>Alteration / remake</option>
             </select>
           </label>
+
+          <label>
+            Consultation preference
+            <select v-model="form.consultationPreference">
+              <option>WhatsApp follow-up</option>
+              <option>In-studio fitting</option>
+              <option>Phone call first</option>
+            </select>
+          </label>
+
+          <label>
+            Budget range
+            <input v-model="form.budget" type="text" placeholder="For example: KES 20,000 - 35,000" />
+          </label>
+
+          <label>
+            Location
+            <input v-model="form.location" type="text" placeholder="Nairobi" />
+          </label>
+
+          <label>
+            Inspiration links
+            <textarea
+              v-model="form.inspirationLinks"
+              rows="3"
+              placeholder="Paste Instagram, Pinterest, or photo links on separate lines"
+            />
+          </label>
+
           <label>
             Notes
-            <textarea rows="5" placeholder="Style notes, fabric preference, links to inspiration, or the kind of look you want to create" />
+            <textarea rows="5" v-model="form.notes" placeholder="Style notes, fabric preference, links to inspiration, or the kind of look you want to create" />
           </label>
-          <button type="button" class="button button--primary">Connect consultation flow</button>
+
+          <label class="form-check">
+            <input v-model="form.whatsappOptIn" type="checkbox" />
+            <span>I’m happy to receive WhatsApp updates about this inquiry.</span>
+          </label>
+
+          <p v-if="errorMessage" class="form-message form-message--error">{{ errorMessage }}</p>
+          <div v-if="successMessage" class="form-success">
+            <strong>{{ successMessage }}</strong>
+            <span>Reference: {{ inquiryReference }}</span>
+          </div>
+
+          <button type="submit" class="button button--primary" :disabled="isSubmitting">
+            {{ isSubmitting ? 'Submitting...' : 'Send fitting request' }}
+          </button>
         </form>
       </section>
     </div>
@@ -81,6 +200,10 @@
 .booking-points {
   display: grid;
   gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.booking-actions {
   margin-top: 1.4rem;
 }
 
@@ -131,6 +254,37 @@
   outline: none;
   border-color: rgba(28, 169, 179, 0.46);
   box-shadow: 0 0 0 4px rgba(28, 169, 179, 0.12);
+}
+
+.form-check {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+}
+
+.form-message {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.form-message--error {
+  color: #9f3047;
+}
+
+.form-success {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(28, 169, 179, 0.09);
+  border: 1px solid rgba(28, 169, 179, 0.16);
+}
+
+.form-success strong {
+  color: var(--ink);
+}
+
+.form-success span {
+  color: var(--muted);
 }
 
 @media (max-width: 960px) {

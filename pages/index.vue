@@ -24,6 +24,8 @@ const previewLooks = computed(() => lookbook.value?.slice(0, 4) || [])
 
     <StyleDirections />
 
+    <CommunitySpotlight />
+
     <section class="section scene">
       <div class="container studio-grid">
         <article class="panel studio-panel studio-panel--dark">

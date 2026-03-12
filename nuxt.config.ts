@@ -24,6 +24,11 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   modules: hasShopifyStorefront ? ['@nuxtjs/shopify'] : [],
   runtimeConfig: {
+    whatsappWebhookUrl: process.env.WHATSAPP_WEBHOOK_URL || '',
+    whatsappAccessToken: process.env.WHATSAPP_ACCESS_TOKEN || '',
+    whatsappPhoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID || '',
+    whatsappGraphApiBase: process.env.WHATSAPP_GRAPH_API_BASE || 'https://graph.facebook.com/v23.0',
+    whatsappNotificationRecipient: process.env.WHATSAPP_NOTIFICATION_RECIPIENT || '',
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3031',
       shopifyStoreDomain,
