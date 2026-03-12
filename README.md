@@ -38,6 +38,7 @@ Nuxt 3 starter for Coloured Sugar, a luxury tailor in Nairobi using Shopify as t
    - `STUDIO_ADMIN_USERNAME`
    - `STUDIO_ADMIN_PASSWORD`
    - `STUDIO_SESSION_SECRET`
+   - `BLOB_READ_WRITE_TOKEN`
    - `WHATSAPP_WEBHOOK_URL`
    - `WHATSAPP_ACCESS_TOKEN`
    - `WHATSAPP_PHONE_NUMBER_ID`
@@ -56,7 +57,7 @@ Nuxt 3 starter for Coloured Sugar, a luxury tailor in Nairobi using Shopify as t
 
 - Create Shopify products for consultation deposits and ready-made pieces
 - Add collections or tags for bridal, occasion, and executive wear
-- Mount a durable Nitro storage driver for the `studio` bucket before using the tracker as a real operations board
+- Add a private Vercel Blob store so `BLOB_READ_WRITE_TOKEN` is injected and the tracker becomes durable in production
 - Add cart creation and checkout redirect logic with the Storefront API
 - Turn the `Coloured Sugar Babes` demo wall into an approval-based UGC pipeline
 - Replace wardrobe-builder swatches with Shopify-backed 3D garment assets when hero products are ready

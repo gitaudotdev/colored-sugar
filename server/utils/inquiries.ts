@@ -1,3 +1,4 @@
+import { BlobNotFoundError, get as getBlob, put as putBlob } from '@vercel/blob'
 import {
   inquiryStatuses,
   type InquiryPayload,
@@ -7,12 +8,31 @@ import {
 } from '~/types/inquiry'
 
 const INQUIRIES_KEY = 'inquiries:v1'
+const INQUIRIES_BLOB_PATH = 'studio/inquiries.json'
+
+interface InquiryDocument {
+  version: number
+  updatedAt: string
+  inquiries: InquiryRecord[]
+}
 
 function getStorage() {
   return useStorage('studio')
 }
 
+function hasBlobStorage() {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN)
+}
+
 export function getInquiryStorageMeta() {
+  if (hasBlobStorage()) {
+    return {
+      driver: 'vercel-blob',
+      durable: true,
+      note: 'Production tracker data is being persisted in a private Vercel Blob store.'
+    }
+  }
+
   return import.meta.dev
     ? {
         driver: 'filesystem',
@@ -24,6 +44,74 @@ export function getInquiryStorageMeta() {
         durable: false,
         note: 'Production is still using Nitro memory until a durable provider is mounted.'
       }
+}
+
+function sortInquiries(inquiries: InquiryRecord[]) {
+  return [...inquiries].sort((left, right) => right.createdAt.localeCompare(left.createdAt))
+}
+
+function normalizeInquiryDocument(payload: unknown): InquiryRecord[] {
+  if (Array.isArray(payload)) {
+    return payload as InquiryRecord[]
+  }
+
+  if (payload && typeof payload === 'object' && Array.isArray((payload as InquiryDocument).inquiries)) {
+    return (payload as InquiryDocument).inquiries
+  }
+
+  return []
+}
+
+async function readInquiries() {
+  if (hasBlobStorage()) {
+    try {
+      const blob = await getBlob(INQUIRIES_BLOB_PATH, {
+        access: 'private',
+        useCache: false
+      })
+
+      if (!blob || !blob.stream) {
+        return []
+      }
+
+      const text = await new Response(blob.stream).text()
+
+      if (!text.trim()) {
+        return []
+      }
+
+      return normalizeInquiryDocument(JSON.parse(text))
+    } catch (error) {
+      if (error instanceof BlobNotFoundError) {
+        return []
+      }
+
+      throw error
+    }
+  }
+
+  return (await getStorage().getItem<InquiryRecord[]>(INQUIRIES_KEY)) || []
+}
+
+async function writeInquiries(inquiries: InquiryRecord[]) {
+  if (hasBlobStorage()) {
+    const document: InquiryDocument = {
+      version: 1,
+      updatedAt: new Date().toISOString(),
+      inquiries
+    }
+
+    await putBlob(INQUIRIES_BLOB_PATH, JSON.stringify(document, null, 2), {
+      access: 'private',
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: 'application/json'
+    })
+
+    return
+  }
+
+  await getStorage().setItem(INQUIRIES_KEY, inquiries)
 }
 
 function createReference() {
@@ -128,14 +216,7 @@ export function validateInquiryPayload(body: Record<string, unknown>) {
 }
 
 export async function listInquiries() {
-  const storage = getStorage()
-  const inquiries = (await storage.getItem<InquiryRecord[]>(INQUIRIES_KEY)) || []
-
-  return inquiries.sort((left, right) => right.createdAt.localeCompare(left.createdAt))
-}
-
-async function saveInquiries(inquiries: InquiryRecord[]) {
-  await getStorage().setItem(INQUIRIES_KEY, inquiries)
+  return sortInquiries(await readInquiries())
 }
 
 export async function createInquiry(payload: InquiryPayload) {
@@ -166,8 +247,8 @@ export async function createInquiry(payload: InquiryPayload) {
     ]
   }
 
-  const inquiries = await listInquiries()
-  await saveInquiries([inquiry, ...inquiries])
+  const inquiries = await readInquiries()
+  await writeInquiries(sortInquiries([inquiry, ...inquiries]))
 
   return inquiry
 }
@@ -186,7 +267,7 @@ export async function updateInquiry(
   id: string,
   updates: Partial<Pick<InquiryRecord, 'status'>> & { note?: string }
 ) {
-  const inquiries = await listInquiries()
+  const inquiries = await readInquiries()
   const inquiryIndex = inquiries.findIndex((entry) => entry.id === id)
 
   if (inquiryIndex === -1) {
@@ -223,7 +304,7 @@ export async function updateInquiry(
   }
 
   inquiries[inquiryIndex] = updatedInquiry
-  await saveInquiries(inquiries)
+  await writeInquiries(sortInquiries(inquiries))
 
   return updatedInquiry
 }
