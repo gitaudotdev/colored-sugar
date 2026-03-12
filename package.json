@@ -1,0 +1,16 @@
+{
+  "name": "coloredsugar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev --port 3031",
+    "build": "nuxt build",
+    "preview": "nuxt preview --port 3031",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxtjs/shopify": "latest",
+    "nuxt": "latest"
+  }
+}
