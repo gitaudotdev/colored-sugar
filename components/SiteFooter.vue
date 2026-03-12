@@ -11,8 +11,8 @@
 
       <div class="site-footer__links">
         <NuxtLink to="/collections">Collections</NuxtLink>
-        <NuxtLink to="/lookbook">Lookbook</NuxtLink>
         <NuxtLink to="/colored-sugar-babes">Coloured Sugar Babes</NuxtLink>
+        <NuxtLink to="/build-a-look">Build a look</NuxtLink>
         <NuxtLink to="/book-fitting">Book a fitting</NuxtLink>
       </div>
     </div>

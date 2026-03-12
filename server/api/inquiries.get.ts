@@ -1,10 +1,13 @@
-import { listInquiries, getInquiryStatusLabel } from '~/server/utils/inquiries'
-import type { InquiryRecord } from '~/types/inquiry'
+import { getInquiryStorageMeta, getInquiryStatusLabel, listInquiries } from '~/server/utils/inquiries'
+import { requireStudioSession } from '~/server/utils/studioAuth'
+import type { InquiryRecord, InquiryStorageMeta } from '~/types/inquiry'
 
-export default defineEventHandler(async (): Promise<{
+export default defineEventHandler(async (event): Promise<{
   inquiries: InquiryRecord[]
   statusSummary: Array<{ status: string; label: string; count: number }>
+  storage: InquiryStorageMeta
 }> => {
+  requireStudioSession(event)
   const inquiries = await listInquiries()
 
   const counts = new Map<string, number>()
@@ -19,6 +22,7 @@ export default defineEventHandler(async (): Promise<{
       status,
       label: getInquiryStatusLabel(status as InquiryRecord['status']),
       count
-    }))
+    })),
+    storage: getInquiryStorageMeta()
   }
 })

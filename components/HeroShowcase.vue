@@ -16,7 +16,7 @@ const showHeroFallback = ref(false)
         </p>
         <div class="button-row">
           <NuxtLink to="/book-fitting" class="button button--primary">Schedule a fitting</NuxtLink>
-          <NuxtLink to="/lookbook" class="button button--secondary">View the lookbook</NuxtLink>
+          <NuxtLink to="/build-a-look" class="button button--secondary">Build a weekend wardrobe</NuxtLink>
         </div>
         <div class="hero__meta">
           <span>Custom fittings</span>

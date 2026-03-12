@@ -1,24 +1,45 @@
 <script setup lang="ts">
 import { communityEntries } from '~/data/community'
+
+const featuredEntries = computed(() => communityEntries.slice(0, 4))
 </script>
 
 <template>
   <section class="section scene section--dark">
-    <div class="container">
-      <div class="community-head">
-        <div>
-          <span class="eyebrow eyebrow--light">Coloured Sugar Babes</span>
-          <h2 class="section-title community-head__title">A future-facing UGC section for the clients, their looks, and the moments they created in them.</h2>
-        </div>
-        <p class="section-copy community-head__copy">
-          For the demo, this works as a curated community wall. Later, it becomes an approval-based submission flow
-          for client photos, WhatsApp shares, and styled event recaps.
+    <div class="container community-shell">
+      <div class="community-copy">
+        <span class="eyebrow eyebrow--light">Coloured Sugar Babes</span>
+        <h2 class="section-title community-copy__title">Seen on birthdays, wedding weekends, portrait sessions, and the kind of events people post twice.</h2>
+        <p class="section-copy community-copy__body">
+          Instagram may be where clients first discover the brand, but this is where the social proof becomes a sales
+          engine: real looks, clear styling direction, and a stronger prompt to book the next custom piece.
         </p>
+
+        <div class="community-proof">
+          <article>
+            <strong>Styled for real moments</strong>
+            <p>Birthday dinners, guest dressing, bridal weekends, brunch looks, and menswear edits all sit under one house style.</p>
+          </article>
+          <article>
+            <strong>Built to convert</strong>
+            <p>Every social-proof card points back to a fitting request or a wardrobe brief instead of ending at passive inspiration.</p>
+          </article>
+          <article>
+            <strong>Ready for UGC later</strong>
+            <p>The page already has the right structure for approved client submissions, WhatsApp shares, and post-event recaps.</p>
+          </article>
+        </div>
+
+        <div class="button-row community-actions">
+          <NuxtLink to="/colored-sugar-babes" class="button button--primary">Meet the Babes</NuxtLink>
+          <NuxtLink to="/build-a-look" class="button button--secondary">Build a weekend wardrobe</NuxtLink>
+          <NuxtLink to="/book-fitting" class="button button--ghost">Book a fitting</NuxtLink>
+        </div>
       </div>
 
       <div class="community-grid">
         <article
-          v-for="entry in communityEntries.slice(0, 3)"
+          v-for="entry in featuredEntries"
           :key="entry.id"
           class="community-card"
           :style="{
@@ -37,10 +58,6 @@ import { communityEntries } from '~/data/community'
           </div>
         </article>
       </div>
-
-      <div class="community-actions">
-        <NuxtLink to="/colored-sugar-babes" class="button button--primary">Open the community wall</NuxtLink>
-      </div>
     </div>
   </section>
 </template>
@@ -50,25 +67,58 @@ import { communityEntries } from '~/data/community'
   color: rgba(255, 250, 242, 0.82);
 }
 
-.community-head {
+.community-shell {
   display: grid;
-  grid-template-columns: 1fr 0.9fr;
-  gap: 1.2rem;
-  align-items: end;
-  margin-bottom: 1.5rem;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 1rem;
 }
 
-.community-head__title {
+.community-copy {
+  align-self: center;
+}
+
+.community-copy__title {
   color: #fffaf2;
 }
 
-.community-head__copy {
+.community-copy__body {
+  color: rgba(255, 250, 242, 0.8);
+}
+
+.community-proof {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.3rem;
+}
+
+.community-proof article {
+  padding: 1rem 1.1rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.community-proof strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  color: #fffaf2;
+}
+
+.community-proof p {
+  margin: 0;
   color: rgba(255, 250, 242, 0.78);
+  line-height: 1.7;
+}
+
+.community-actions {
+  margin-top: 1.25rem;
 }
 
 .community-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -81,7 +131,7 @@ import { communityEntries } from '~/data/community'
 }
 
 .community-card__visual {
-  min-height: 16rem;
+  min-height: 14rem;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -102,7 +152,7 @@ import { communityEntries } from '~/data/community'
 .community-card__visual strong {
   margin-top: auto;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2rem, 4vw, 2.6rem);
   line-height: 0.92;
 }
 
@@ -118,15 +168,11 @@ import { communityEntries } from '~/data/community'
 .community-card__body p {
   margin: 0;
   color: rgba(255, 250, 242, 0.82);
-  line-height: 1.75;
-}
-
-.community-actions {
-  margin-top: 1.4rem;
+  line-height: 1.7;
 }
 
 @media (max-width: 960px) {
-  .community-head,
+  .community-shell,
   .community-grid {
     grid-template-columns: 1fr;
   }

@@ -13,14 +13,14 @@ useSeoMeta({
     <div class="container babes-shell">
       <section class="panel babes-hero">
         <span class="eyebrow">Coloured Sugar Babes</span>
-        <h1 class="section-title">A community wall for the women and men who take the pieces into real life.</h1>
+        <h1 class="section-title">The social-proof wall for the women and men who take the pieces into real life.</h1>
         <p class="section-copy">
-          This section is the bridge between studio work and social proof. In production, clients can submit their
-          photos and styling notes for approval, and the best looks become part of the brand story.
+          This is where discovery turns into desire. Clients can see how the work lands off the mannequin, off the
+          sketch, and outside Instagram before they move into a fitting or a wardrobe brief of their own.
         </p>
         <div class="button-row">
           <NuxtLink to="/book-fitting" class="button button--primary">Start your own look</NuxtLink>
-          <NuxtLink to="/lookbook" class="button button--secondary">View studio work</NuxtLink>
+          <NuxtLink to="/build-a-look" class="button button--secondary">Build a weekend wardrobe</NuxtLink>
         </div>
       </section>
 
@@ -47,11 +47,11 @@ useSeoMeta({
       </section>
 
       <section class="panel babes-note">
-        <span class="tag">How to make this real</span>
-        <h2>Next production step</h2>
+        <span class="tag">Next production step</span>
+        <h2>Turn the Babes wall into a true conversion loop</h2>
         <p>
           Add an approval queue, image uploads through Vercel Blob or Cloudinary, and an Instagram/WhatsApp submission
-          prompt so “Coloured Sugar Babes” becomes a true community content engine.
+          prompt so “Coloured Sugar Babes” becomes a true community content engine with better lead capture.
         </p>
       </section>
     </div>

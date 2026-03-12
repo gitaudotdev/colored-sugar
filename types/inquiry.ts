@@ -52,6 +52,12 @@ export interface InquiryPayload {
   whatsappOptIn: boolean
 }
 
+export interface InquiryStorageMeta {
+  driver: string
+  durable: boolean
+  note: string
+}
+
 export interface CommunityEntry {
   id: string
   name: string

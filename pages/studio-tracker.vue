@@ -1,10 +1,27 @@
 <script setup lang="ts">
-import { inquiryStatuses, type InquiryRecord, type InquiryStatus } from '~/types/inquiry'
+import { inquiryStatuses, type InquiryRecord, type InquiryStatus, type InquiryStorageMeta } from '~/types/inquiry'
+
+definePageMeta({
+  middleware: 'studio-auth'
+})
+
+const headers = import.meta.server ? useRequestHeaders(['cookie']) : undefined
 
 const { data, refresh, pending } = await useAsyncData<{
   inquiries: InquiryRecord[]
   statusSummary: Array<{ status: string; label: string; count: number }>
-}>('studio-tracker', () => $fetch('/api/inquiries'))
+  storage: InquiryStorageMeta
+}>('studio-tracker', () =>
+  $fetch('/api/inquiries', {
+    headers
+  })
+)
+
+const { data: session } = await useAsyncData('studio-session-state', () =>
+  $fetch<{ auth: { enabled: boolean; authenticated: boolean; username: string } }>('/api/admin/session', {
+    headers
+  })
+)
 
 const stageLabels: Record<InquiryStatus, string> = {
   received: 'Received',
@@ -19,6 +36,7 @@ const stageLabels: Record<InquiryStatus, string> = {
 const activeFilter = ref<'all' | InquiryStatus>('all')
 const trackerNote = reactive<Record<string, string>>({})
 const isUpdating = ref<string | null>(null)
+const isSigningOut = ref(false)
 
 const filteredInquiries = computed(() => {
   const inquiries = data.value?.inquiries || []
@@ -45,18 +63,54 @@ async function updateInquiryStage(inquiryId: string, options: { advance?: boolea
     isUpdating.value = null
   }
 }
+
+async function signOut() {
+  isSigningOut.value = true
+
+  try {
+    await $fetch('/api/admin/logout', {
+      method: 'POST'
+    })
+
+    await navigateTo('/studio-login')
+  } finally {
+    isSigningOut.value = false
+  }
+}
 </script>
 
 <template>
   <main class="section">
     <div class="container tracker-shell">
       <section class="panel tracker-intro">
-        <span class="eyebrow">Studio tracker</span>
+        <div class="tracker-intro__top">
+          <span class="eyebrow">Studio tracker</span>
+          <button
+            v-if="session?.auth.enabled"
+            type="button"
+            class="button button--ghost tracker-signout"
+            :disabled="isSigningOut"
+            @click="signOut"
+          >
+            {{ isSigningOut ? 'Signing out...' : 'Sign out' }}
+          </button>
+        </div>
         <h1 class="section-title">A demo production board for custom orders, fittings, and delivery readiness.</h1>
         <p class="section-copy">
           This is the internal view: every inquiry can move through consultation, approval, production, fitting, and
-          handoff. For now it is intentionally demo-open. Before launch, we should add auth and durable storage.
+          handoff. The studio login now protects access when credentials are configured, and the storage layer is ready
+          for a durable provider swap later.
         </p>
+
+        <div class="tracker-meta">
+          <span class="tag">
+            {{ session?.auth.enabled ? `Protected studio access${session?.auth.username ? ` · ${session.auth.username}` : ''}` : 'Auth inactive' }}
+          </span>
+          <span class="tag">
+            {{ data?.storage.durable ? `Storage: ${data.storage.driver}` : `Storage: ${data?.storage.driver || 'memory demo'}` }}
+          </span>
+        </div>
+        <p class="tracker-storage-note">{{ data?.storage.note }}</p>
 
         <div class="tracker-summary">
           <button
@@ -161,9 +215,28 @@ async function updateInquiryStage(inquiryId: string, options: { advance?: boolea
   gap: 1rem;
 }
 
+.tracker-intro__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .tracker-intro,
 .tracker-card {
   padding: 1.5rem;
+}
+
+.tracker-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.tracker-storage-note {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .tracker-summary {
@@ -289,6 +362,11 @@ async function updateInquiryStage(inquiryId: string, options: { advance?: boolea
   .tracker-card__top,
   .tracker-card__body {
     grid-template-columns: 1fr;
+  }
+
+  .tracker-intro__top {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .tracker-card__meta {

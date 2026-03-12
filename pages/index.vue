@@ -6,6 +6,7 @@ const previewLooks = computed(() => lookbook.value?.slice(0, 4) || [])
 <template>
   <main class="page">
     <HeroShowcase />
+    <CommunitySpotlight />
     <ProcessStrip />
 
     <section class="section scene">
@@ -23,8 +24,6 @@ const previewLooks = computed(() => lookbook.value?.slice(0, 4) || [])
     </section>
 
     <StyleDirections />
-
-    <CommunitySpotlight />
 
     <section class="section scene">
       <div class="container studio-grid">
@@ -61,29 +60,29 @@ const previewLooks = computed(() => lookbook.value?.slice(0, 4) || [])
       <div class="container cards">
         <article class="panel action-panel">
           <span class="eyebrow">For custom orders</span>
-          <h2 class="section-title">Book first, refine the brief, then move into the right piece.</h2>
+          <h2 class="section-title">Book the fitting or build the wardrobe brief before production starts.</h2>
           <p class="section-copy">
-            Most custom garments begin with a fitting request so the silhouette, timing, and fabric direction are all
-            clear before production starts.
+            Most custom garments begin with a fitting request, but now the client can also map out a wedding weekend or
+            event wardrobe first and bring that plan straight into the studio conversation.
           </p>
           <div class="button-row action-panel__actions">
             <NuxtLink to="/book-fitting" class="button button--secondary">Book a fitting</NuxtLink>
-            <NuxtLink to="/collections" class="button button--ghost">Browse all collections</NuxtLink>
+            <NuxtLink to="/build-a-look" class="button button--ghost">Build a look</NuxtLink>
           </div>
         </article>
 
         <article class="panel dark-panel">
-          <span class="tag">Ready to wear</span>
-          <h2>Selected pieces can still be available to buy directly when the style is already defined.</h2>
+          <span class="tag">Instagram to inquiry</span>
+          <h2>Social proof should pull people into a booking flow, not leave them stuck on inspiration.</h2>
           <p>
-            Signature kimonos, menswear details, and selected event pieces can sit alongside custom commissions so the
-            site serves both appointment-led and ready-to-order clients.
+            Between the Babes wall, the wardrobe builder, and the fitting request, the website can turn Instagram
+            attention into a clearer brief and a warmer sales conversation.
           </p>
         </article>
 
         <article class="panel action-panel">
           <span class="eyebrow">Inside the studio</span>
-          <h2 class="section-title">Expect a process that is personal, collaborative, and detail-driven.</h2>
+          <h2 class="section-title">Expect a process that is personal, collaborative, and built around the final entrance.</h2>
           <p class="section-copy">
             Clients are not pushed through a generic checkout flow. They are guided through conversation, fittings, and
             final adjustments so the piece lands exactly as intended.

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const route = useRoute()
+
 const form = reactive({
   fullName: '',
   email: '',
@@ -12,6 +14,17 @@ const form = reactive({
   notes: '',
   whatsappOptIn: true
 })
+
+const prefilledBrief = typeof route.query.brief === 'string' ? route.query.brief : ''
+const prefilledGarmentType = typeof route.query.garmentType === 'string' ? route.query.garmentType : ''
+
+if (prefilledBrief) {
+  form.notes = prefilledBrief
+}
+
+if (prefilledGarmentType) {
+  form.garmentType = prefilledGarmentType
+}
 
 const isSubmitting = ref(false)
 const errorMessage = ref('')
@@ -81,6 +94,7 @@ async function submitInquiry() {
         </div>
 
         <div class="booking-actions">
+          <NuxtLink to="/build-a-look" class="button button--secondary">Build a weekend wardrobe</NuxtLink>
           <NuxtLink to="/studio-tracker" class="button button--ghost">Open studio tracker</NuxtLink>
         </div>
       </section>

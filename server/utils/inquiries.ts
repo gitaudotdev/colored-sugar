@@ -6,10 +6,24 @@ import {
   type InquiryTimelineEvent
 } from '~/types/inquiry'
 
-const INQUIRIES_KEY = 'colored-sugar:inquiries:v1'
+const INQUIRIES_KEY = 'inquiries:v1'
 
 function getStorage() {
-  return useStorage()
+  return useStorage('studio')
+}
+
+export function getInquiryStorageMeta() {
+  return import.meta.dev
+    ? {
+        driver: 'filesystem',
+        durable: true,
+        note: 'Local development persists tracker data to .data/studio.'
+      }
+    : {
+        driver: 'memory',
+        durable: false,
+        note: 'Production is still using Nitro memory until a durable provider is mounted.'
+      }
 }
 
 function createReference() {

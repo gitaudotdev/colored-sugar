@@ -22,8 +22,24 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/css/main.css'],
+  nitro: {
+    storage: {
+      studio: {
+        driver: 'memory'
+      }
+    },
+    devStorage: {
+      studio: {
+        driver: 'fs',
+        base: './.data/studio'
+      }
+    }
+  },
   modules: hasShopifyStorefront ? ['@nuxtjs/shopify'] : [],
   runtimeConfig: {
+    studioAdminUsername: process.env.STUDIO_ADMIN_USERNAME || '',
+    studioAdminPassword: process.env.STUDIO_ADMIN_PASSWORD || '',
+    studioSessionSecret: process.env.STUDIO_SESSION_SECRET || '',
     whatsappWebhookUrl: process.env.WHATSAPP_WEBHOOK_URL || '',
     whatsappAccessToken: process.env.WHATSAPP_ACCESS_TOKEN || '',
     whatsappPhoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID || '',

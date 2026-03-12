@@ -10,6 +10,7 @@ Nuxt 3 starter for Coloured Sugar, a luxury tailor in Nairobi using Shopify as t
 - Shopify-backed collection feeds at `/api/shopify/collections`
 - Initial pages for the homepage, lookbook, fitting flow, and cart architecture
 - Inquiry submission and demo studio tracking endpoints at `/api/inquiries`
+- A wardrobe builder page at `/build-a-look` for multi-look planning and conversion
 - A branded UI direction for a consultation-led tailoring business
 
 ## Local setup
@@ -34,6 +35,9 @@ Nuxt 3 starter for Coloured Sugar, a luxury tailor in Nairobi using Shopify as t
 
 4. Optional automation variables:
 
+   - `STUDIO_ADMIN_USERNAME`
+   - `STUDIO_ADMIN_PASSWORD`
+   - `STUDIO_SESSION_SECRET`
    - `WHATSAPP_WEBHOOK_URL`
    - `WHATSAPP_ACCESS_TOKEN`
    - `WHATSAPP_PHONE_NUMBER_ID`
@@ -52,6 +56,7 @@ Nuxt 3 starter for Coloured Sugar, a luxury tailor in Nairobi using Shopify as t
 
 - Create Shopify products for consultation deposits and ready-made pieces
 - Add collections or tags for bridal, occasion, and executive wear
-- Add durable storage and auth to the demo studio tracker before using it as a real operations board
+- Mount a durable Nitro storage driver for the `studio` bucket before using the tracker as a real operations board
 - Add cart creation and checkout redirect logic with the Storefront API
 - Turn the `Coloured Sugar Babes` demo wall into an approval-based UGC pipeline
+- Replace wardrobe-builder swatches with Shopify-backed 3D garment assets when hero products are ready

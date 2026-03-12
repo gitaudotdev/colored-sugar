@@ -1,8 +1,10 @@
 import { getNextInquiryStatus, getInquiryById, updateInquiry } from '~/server/utils/inquiries'
+import { requireStudioSession } from '~/server/utils/studioAuth'
 import { sendWhatsAppAutomation } from '~/server/utils/whatsapp'
 import type { InquiryRecord, InquiryStatus } from '~/types/inquiry'
 
 export default defineEventHandler(async (event): Promise<{ inquiry: InquiryRecord }> => {
+  requireStudioSession(event)
   const id = getRouterParam(event, 'id')
   const body = await readBody<{ status?: InquiryStatus; advance?: boolean; note?: string }>(event)
 

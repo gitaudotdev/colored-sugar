@@ -11,7 +11,8 @@
 
       <nav class="site-header__nav" aria-label="Primary">
         <NuxtLink to="/collections">Collections</NuxtLink>
-        <NuxtLink to="/lookbook">Lookbook</NuxtLink>
+        <NuxtLink to="/colored-sugar-babes">Babes</NuxtLink>
+        <NuxtLink to="/build-a-look">Build a look</NuxtLink>
         <NuxtLink to="/book-fitting">Book a fitting</NuxtLink>
       </nav>
     </div>
@@ -76,6 +77,8 @@
 .site-header__nav {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 1.4rem;
   color: var(--muted);
   text-transform: uppercase;
@@ -120,6 +123,7 @@
   .site-header__nav {
     font-size: 0.92rem;
     gap: 0.9rem;
+    justify-content: center;
   }
 }
 </style>
