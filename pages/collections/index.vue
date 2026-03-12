@@ -1,5 +1,28 @@
 <script setup lang="ts">
 import { collections } from '~/data/collections'
+import type { ShopifyCollectionSummary } from '~/types/shopify'
+
+const { data: collectionCatalog } = await useAsyncData<ShopifyCollectionSummary[]>('collection-catalog', () =>
+  $fetch('/api/shopify/collections')
+)
+
+const collectionSummaryBySlug = computed(() =>
+  Object.fromEntries((collectionCatalog.value || []).map((summary) => [summary.slug, summary]))
+)
+
+function getCollectionStatus(slug: string) {
+  const summary = collectionSummaryBySlug.value[slug]
+
+  if (!summary) {
+    return 'Studio preview ready'
+  }
+
+  if (summary.source === 'shopify') {
+    return `${summary.matchedProductCount} live Shopify pieces matched`
+  }
+
+  return `${summary.matchedProductCount} curated studio previews`
+}
 
 useSeoMeta({
   title: 'Collections | Coloured Sugar',
@@ -75,6 +98,7 @@ useSeoMeta({
               <span class="tag">{{ collection.kicker }}</span>
               <h3>{{ collection.name }}</h3>
               <p>{{ collection.tagline }}</p>
+              <span class="collection-card__status">{{ getCollectionStatus(collection.slug) }}</span>
 
               <div class="collection-card__highlights">
                 <span v-for="highlight in collection.highlights" :key="highlight.label">
@@ -207,6 +231,14 @@ useSeoMeta({
   margin: 0;
   color: var(--muted);
   line-height: 1.7;
+}
+
+.collection-card__status {
+  margin-top: 0.85rem;
+  color: var(--accent-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
 }
 
 .collection-card__highlights {

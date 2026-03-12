@@ -25,6 +25,13 @@ export interface CollectionLook {
   note: string
 }
 
+export interface CollectionFallbackProduct {
+  title: string
+  description: string
+  price: string
+  fabric: string
+}
+
 export interface CollectionData {
   slug: string
   name: string
@@ -37,4 +44,6 @@ export interface CollectionData {
   frames: CollectionFrame[]
   looks: CollectionLook[]
   moments: string[]
+  shopifyKeywords: string[]
+  fallbackProducts: CollectionFallbackProduct[]
 }

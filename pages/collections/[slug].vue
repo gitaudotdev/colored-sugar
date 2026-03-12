@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { collections, getCollectionBySlug } from '~/data/collections'
+import type { ShopifyCollectionFeed } from '~/types/shopify'
 
 const route = useRoute()
+const slug = String(route.params.slug || '')
 
-const collection = computed(() => getCollectionBySlug(String(route.params.slug || '')))
+const collection = computed(() => getCollectionBySlug(slug))
 
 if (!collection.value) {
   throw createError({
@@ -13,6 +15,19 @@ if (!collection.value) {
 }
 
 const otherCollections = computed(() => collections.filter((entry) => entry.slug !== collection.value?.slug))
+const { data: collectionFeed } = await useAsyncData<ShopifyCollectionFeed>(`collection-feed-${slug}`, () =>
+  $fetch(`/api/shopify/collections/${slug}`)
+)
+
+const collectionProducts = computed(() => collectionFeed.value?.products || [])
+const collectionFeedLabel = computed(() =>
+  collectionFeed.value?.source === 'shopify'
+    ? `${collectionFeed.value.matchedProductCount} live Shopify pieces matched this direction.`
+    : 'This demo is using curated studio preview cards while product tagging and imagery are still being finalized.'
+)
+const collectionFeedTag = computed(() =>
+  collectionFeed.value?.source === 'shopify' ? 'Live Shopify selection' : 'Studio preview selection'
+)
 
 const collectionTheme = computed(() => ({
   '--collection-primary': collection.value?.palette.primary,
@@ -62,13 +77,31 @@ useSeoMeta({
           />
 
           <article class="panel collection-hero__note">
-            <span class="tag">Studio note</span>
+            <span class="tag">{{ collectionFeedTag }}</span>
             <h2>{{ collection.description }}</h2>
+            <p class="collection-hero__status">{{ collectionFeedLabel }}</p>
             <div class="collection-moments">
               <span v-for="moment in collection.moments" :key="moment">{{ moment }}</span>
             </div>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section scene">
+      <div class="container collection-products">
+        <div class="collection-products__head">
+          <span class="eyebrow">Selected pieces</span>
+          <div>
+            <h2 class="section-title">A live product rail for this style world, with a studio fallback when imagery is not ready.</h2>
+            <p class="section-copy">
+              That keeps the demo compelling now, while giving us a clean path to real Shopify product cards as the
+              catalogue gets organized.
+            </p>
+          </div>
+        </div>
+
+        <CollectionProductGrid :products="collectionProducts" :palette="collection.palette" />
       </div>
     </section>
 
@@ -240,6 +273,12 @@ useSeoMeta({
   color: var(--ink-strong);
 }
 
+.collection-hero__status {
+  margin: 0.95rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 .collection-moments {
   display: flex;
   flex-wrap: wrap;
@@ -259,6 +298,18 @@ useSeoMeta({
 
 .collection-story__copy {
   max-width: 32rem;
+}
+
+.collection-products {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.collection-products__head {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: 1.2rem;
+  align-items: end;
 }
 
 .collection-story__grid {
@@ -347,6 +398,7 @@ useSeoMeta({
   .collection-hero__grid,
   .collection-story,
   .collection-looks,
+  .collection-products__head,
   .collection-story__grid,
   .collection-meta {
     grid-template-columns: 1fr;

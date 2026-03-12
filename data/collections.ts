@@ -62,7 +62,28 @@ export const collections: CollectionData[] = [
         note: 'Strong option for birthdays, dinners, and photo-led events'
       }
     ],
-    moments: ['Birthday looks', 'Day-to-night dressing', 'Wedding guest pieces', 'Content shoots']
+    moments: ['Birthday looks', 'Day-to-night dressing', 'Wedding guest pieces', 'Content shoots'],
+    shopifyKeywords: ['ankara', 'kitenge', 'batik', 'print', 'pattern', 'african print', 'kaftan'],
+    fallbackProducts: [
+      {
+        title: 'Ceremony Blue Print Dress',
+        description: 'A strong studio print piece shaped for celebrations, portraits, and a polished entrance.',
+        price: 'From KES 24,000',
+        fabric: 'Ankara'
+      },
+      {
+        title: 'Cold-Weather Ankara Layer',
+        description: 'Ankara styling with warmth, texture, and enough structure to feel elevated all day.',
+        price: 'From KES 18,000',
+        fabric: 'Kitenge'
+      },
+      {
+        title: 'Colour Story Kaftan',
+        description: 'A flowing statement silhouette for clients who want comfort, print, and movement together.',
+        price: 'From KES 22,000',
+        fabric: 'Batik'
+      }
+    ]
   },
   {
     slug: 'occasionwear',
@@ -125,7 +146,28 @@ export const collections: CollectionData[] = [
         note: 'Ideal for standout fashion moments and themed events'
       }
     ],
-    moments: ['Birthday dressing', 'Wedding receptions', 'Formal dinners', 'Red carpet styling']
+    moments: ['Birthday dressing', 'Wedding receptions', 'Formal dinners', 'Red carpet styling'],
+    shopifyKeywords: ['occasion', 'event', 'birthday', 'bridal', 'wedding', 'reception', 'gown', 'corset', 'tulle'],
+    fallbackProducts: [
+      {
+        title: 'Gold Evening Statement',
+        description: 'Metallic event dressing designed for portraits, formal dinners, and memorable entrances.',
+        price: 'From KES 35,000',
+        fabric: 'Lamé'
+      },
+      {
+        title: 'Sculpted Birthday Mini',
+        description: 'Tailored occasionwear with shape through the waist and a celebratory finish.',
+        price: 'From KES 28,000',
+        fabric: 'Structured satin'
+      },
+      {
+        title: 'Orange Tulle Entrance Skirt',
+        description: 'A playful formal look for clients who want structure up top and volume below.',
+        price: 'From KES 32,000',
+        fabric: 'Tulle'
+      }
+    ]
   },
   {
     slug: 'kimonos-and-drape',
@@ -188,7 +230,28 @@ export const collections: CollectionData[] = [
         note: 'Moves well between resort, brunch, and event dressing'
       }
     ],
-    moments: ['Resort looks', 'Destination events', 'Dinner dressing', 'Layered styling']
+    moments: ['Resort looks', 'Destination events', 'Dinner dressing', 'Layered styling'],
+    shopifyKeywords: ['kimono', 'drape', 'waterfall', 'organza', 'overlay', 'resort', 'kaftan', 'flow'],
+    fallbackProducts: [
+      {
+        title: 'Riviera Organza Kimono',
+        description: 'A lightweight studio layer designed for easy elegance and soft, polished styling.',
+        price: 'From KES 5,000',
+        fabric: 'Organza'
+      },
+      {
+        title: 'Lilac Waterfall Dress',
+        description: 'Fluid lines and soft movement for evening dressing with an effortless feel.',
+        price: 'From KES 16,000',
+        fabric: 'Chiffon'
+      },
+      {
+        title: 'Blue Drape Studio Dress',
+        description: 'A softer statement with movement through the sleeves and a composed silhouette.',
+        price: 'From KES 19,000',
+        fabric: 'Silk blend'
+      }
+    ]
   },
   {
     slug: 'menswear-edit',
@@ -251,7 +314,28 @@ export const collections: CollectionData[] = [
         note: 'A strong route for family functions and smart occasion dressing'
       }
     ],
-    moments: ['Celebration dressing', 'Portrait sessions', 'Wedding functions', 'Smart casual events']
+    moments: ['Celebration dressing', 'Portrait sessions', 'Wedding functions', 'Smart casual events'],
+    shopifyKeywords: ['menswear', 'men', 'male', 'shirt', 'set', 'trouser', 'graphic', 'agbada'],
+    fallbackProducts: [
+      {
+        title: 'Graphic Line Statement Shirt',
+        description: 'Clean menswear with focused detail placement and a sharp studio finish.',
+        price: 'From KES 6,500',
+        fabric: 'Cotton'
+      },
+      {
+        title: 'Ceremony Blue Matching Set',
+        description: 'A coordinated menswear look built for celebrations, portraits, and standout arrivals.',
+        price: 'From KES 14,000',
+        fabric: 'Ankara blend'
+      },
+      {
+        title: 'Tailored African Shirt',
+        description: 'A dressier menswear option with crisp lines and styling versatility.',
+        price: 'From KES 7,800',
+        fabric: 'Cotton twill'
+      }
+    ]
   }
 ]
 
