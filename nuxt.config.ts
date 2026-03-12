@@ -1,5 +1,9 @@
 const shopifyStoreDomain = process.env.NUXT_PUBLIC_SHOPIFY_STORE_DOMAIN || ''
 const shopifyStorefrontToken = process.env.NUXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN || ''
+const shopifyStoreName = shopifyStoreDomain
+  .replace(/^https?:\/\//, '')
+  .replace(/\/.*$/, '')
+  .replace(/\.myshopify\.com$/, '')
 const hasShopifyStorefront =
   Boolean(shopifyStoreDomain) &&
   Boolean(shopifyStorefrontToken) &&
@@ -29,12 +33,12 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Colored Sugar',
+      title: 'Coloured Sugar',
       meta: [
         {
           name: 'description',
           content:
-            'High-end custom tailoring in Nairobi with consultation-led design, luxury fittings, and African craftsmanship.'
+            'Coloured Sugar by Nicole Muchai offers custom fittings in Nairobi, bold African fashion, statement prints, occasionwear, and tailored style for women and men.'
         }
       ]
     }
@@ -42,10 +46,13 @@ export default defineNuxtConfig({
   ...(hasShopifyStorefront
     ? {
         shopify: {
-          name: 'coloredsugar',
+          name: shopifyStoreName,
           clients: {
             storefront: {
               apiVersion: process.env.NUXT_PUBLIC_SHOPIFY_API_VERSION || '2026-01',
+              codegen: {
+                skip: true
+              },
               publicAccessToken: shopifyStorefrontToken
             }
           }

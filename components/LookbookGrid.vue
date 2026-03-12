@@ -11,9 +11,9 @@ defineProps<{
     <article v-for="item in items" :key="item.id" class="lookbook-card card">
       <div class="lookbook-card__media">
         <img :src="item.image" :alt="item.imageAlt" loading="lazy" />
+        <span class="lookbook-card__badge">{{ item.fabric }}</span>
       </div>
       <div class="lookbook-card__body">
-        <span class="tag">{{ item.fabric }}</span>
         <h3>{{ item.title }}</h3>
         <p>{{ item.description }}</p>
         <div class="lookbook-card__meta">
@@ -32,17 +32,32 @@ defineProps<{
 <style scoped>
 .lookbook-card {
   overflow: hidden;
+  position: relative;
 }
 
 .lookbook-card__media {
+  position: relative;
   aspect-ratio: 0.85;
-  background: linear-gradient(180deg, rgba(234, 215, 188, 0.6), rgba(248, 241, 229, 0.98));
+  background: linear-gradient(180deg, rgba(22, 54, 60, 0.22), rgba(248, 241, 229, 0.98));
 }
 
 .lookbook-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.lookbook-card__badge {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(23, 22, 28, 0.78);
+  color: #fffaf2;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
 }
 
 .lookbook-card__body {

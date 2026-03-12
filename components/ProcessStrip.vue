@@ -1,30 +1,30 @@
 <template>
-  <section class="section">
+  <section class="section scene">
     <div class="container">
       <span class="eyebrow">The atelier flow</span>
       <div class="process-head">
-        <h2 class="section-title">Built for a tailoring business where the conversation matters.</h2>
+        <h2 class="section-title">A custom process built around fit, fabric, and the final mood of the piece.</h2>
         <p class="section-copy">
-          The content and Shopify model should mirror the real-world process: inspire, qualify, consult, fit, and
-          then collect payment or deposit through Shopify.
+          Every commission starts with a brief. The goal is not just to sew a garment, but to shape the right look for
+          the event, the body, and the feeling the client wants to carry into the room.
         </p>
       </div>
 
       <div class="pillars">
         <article class="card process-card">
           <span class="tag">01</span>
-          <h3>Lookbook</h3>
-          <p>Showcase Ankara, bridal, occasion wear, and executive pieces with premium photography and style notes.</p>
+          <h3>Share the brief</h3>
+          <p>Start with the occasion, references, timing, and the overall direction you want the piece to take.</p>
         </article>
         <article class="card process-card">
           <span class="tag">02</span>
-          <h3>Consultation</h3>
-          <p>Route serious clients into a fitting request or paid consultation before any final garment specification.</p>
+          <h3>Fit and refine</h3>
+          <p>Measurements, fabric choices, and silhouette adjustments are handled through consultation and fittings.</p>
         </article>
         <article class="card process-card">
           <span class="tag">03</span>
-          <h3>Checkout</h3>
-          <p>Use Shopify for deposits, ready-made pieces, gift cards, and final invoice-style purchase flows.</p>
+          <h3>Deliver the look</h3>
+          <p>The finished piece is shaped to feel confident, polished, and unmistakably personal when it is worn.</p>
         </article>
       </div>
     </div>
@@ -42,6 +42,18 @@
 
 .process-card {
   padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 19rem;
+}
+
+.process-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
 }
 
 .process-card h3 {

@@ -29,36 +29,36 @@ interface ShopifyProductsResponse {
 const mockLookbook: LookbookItem[] = [
   {
     id: 'mock-1',
-    title: 'Royal Ankara Occasion Set',
+    title: 'Teal Print Statement Dress',
     handle: 'royal-ankara-occasion-set',
-    description: 'Structured bodice, tailored skirt, and hand-finished detailing designed after an in-person fitting.',
+    description: 'Print-led silhouette with volume and presence, designed to echo the strongest studio looks from the feed.',
     price: 'From KES 42,000',
     image:
       'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80',
-    imageAlt: 'Tailored Ankara occasion set',
+    imageAlt: 'Statement teal print dress',
     fabric: 'Ankara'
   },
   {
     id: 'mock-2',
-    title: 'Modern Kitenge Bridal Look',
+    title: 'Riviera Organza Kimono',
     handle: 'modern-kitenge-bridal-look',
-    description: 'A bridal silhouette that combines East African pattern work with couture finishing and custom drape.',
-    price: 'From KES 68,000',
+    description: 'Fluid, versatile layering piece designed for elegant movement and easy styling from day to evening.',
+    price: 'From KES 5,000',
     image:
       'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
-    imageAlt: 'Modern African bridal tailoring',
-    fabric: 'Kitenge'
+    imageAlt: 'Organza kimono styling piece',
+    fabric: 'Organza'
   },
   {
     id: 'mock-3',
-    title: 'Statement Reception Dress',
+    title: 'Tailored Tulle Birthday Look',
     handle: 'statement-reception-dress',
-    description: 'Designed for evening receptions with dramatic sleeves, bead accents, and a precise waist fit.',
+    description: 'Structured tailoring up top, bold theatrical volume below, and a silhouette made to own the room.',
     price: 'From KES 55,000',
     image:
       'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80',
-    imageAlt: 'Reception dress with African textile influence',
-    fabric: 'Custom print'
+    imageAlt: 'Statement tulle and tailoring look',
+    fabric: 'Occasion'
   }
 ]
 
@@ -89,12 +89,15 @@ const query = `
 
 export default defineEventHandler(async (): Promise<LookbookItem[]> => {
   const config = useRuntimeConfig()
+  const normalizedStoreDomain = config.public.shopifyStoreDomain
+    .replace(/^https?:\/\//, '')
+    .replace(/\/.*$/, '')
 
   if (!config.public.shopifyStoreDomain || !config.public.shopifyStorefrontToken) {
     return mockLookbook
   }
 
-  const endpoint = `https://${config.public.shopifyStoreDomain}/api/${config.public.shopifyApiVersion}/graphql.json`
+  const endpoint = `https://${normalizedStoreDomain}/api/${config.public.shopifyApiVersion}/graphql.json`
   const response = await $fetch<{ data?: ShopifyProductsResponse; errors?: Array<{ message: string }> }>(
     endpoint,
     {

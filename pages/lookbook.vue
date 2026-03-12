@@ -8,11 +8,11 @@ const { data: lookbook, pending } = await useLookbook()
       <span class="eyebrow">Lookbook</span>
       <div class="lookbook-head">
         <div>
-          <h1 class="section-title">Ankara, occasion, and bridal references ready for a polished storefront.</h1>
+          <h1 class="section-title">Print-led, occasion-ready, and custom-focused pieces from the studio.</h1>
         </div>
         <p class="section-copy">
-          This page already reads from a Shopify-friendly endpoint. As soon as the store domain and storefront token
-          are added, it can show real products instead of mock inspiration looks.
+          Explore the pieces that define Coloured Sugar right now: expressive prints, structured event dressing, softer
+          drape, and silhouettes built to feel memorable in motion and in photographs.
         </p>
       </div>
 

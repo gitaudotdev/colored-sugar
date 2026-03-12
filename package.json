@@ -12,5 +12,8 @@
   "dependencies": {
     "@nuxtjs/shopify": "latest",
     "nuxt": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }

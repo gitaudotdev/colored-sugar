@@ -2,16 +2,17 @@
   <footer class="site-footer">
     <div class="container site-footer__grid">
       <div>
-        <p class="site-footer__brand">Colored Sugar Tailoring</p>
+        <p class="site-footer__brand">Coloured Sugar</p>
         <p class="muted">
-          A Nuxt starter for a consultation-led Shopify storefront tailored to luxury African fashion in Nairobi.
+          Statement African fashion by Nicole Muchai, shaped through custom fittings, vibrant textiles, and silhouettes
+          built to be remembered.
         </p>
       </div>
 
       <div class="site-footer__links">
+        <NuxtLink to="/collections">Collections</NuxtLink>
         <NuxtLink to="/lookbook">Lookbook</NuxtLink>
         <NuxtLink to="/book-fitting">Book a fitting</NuxtLink>
-        <NuxtLink to="/cart">Cart flow</NuxtLink>
       </div>
     </div>
   </footer>
@@ -20,6 +21,7 @@
 <style scoped>
 .site-footer {
   padding: 2rem 0 3rem;
+  background: linear-gradient(180deg, transparent, rgba(28, 169, 179, 0.06));
 }
 
 .site-footer__grid {
@@ -28,7 +30,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding-top: 1.4rem;
-  border-top: 1px solid rgba(36, 24, 19, 0.08);
+  border-top: 1px solid rgba(22, 54, 60, 0.08);
 }
 
 .site-footer__brand {
@@ -41,6 +43,9 @@
   display: flex;
   gap: 1rem;
   color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
 }
 
 @media (max-width: 720px) {

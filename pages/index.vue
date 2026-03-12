@@ -1,56 +1,91 @@
 <script setup lang="ts">
 const { data: lookbook } = await useLookbook()
-const previewLooks = computed(() => lookbook.value?.slice(0, 3) || [])
+const previewLooks = computed(() => lookbook.value?.slice(0, 4) || [])
 </script>
 
 <template>
-  <main>
+  <main class="page">
     <HeroShowcase />
     <ProcessStrip />
 
-    <section class="section">
+    <section class="section scene">
       <div class="container">
         <span class="eyebrow">Signature looks</span>
         <div class="process-head">
-          <h2 class="section-title">Start with brand storytelling, then let Shopify handle commerce underneath.</h2>
+          <h2 class="section-title">Signature pieces should feel like an editorial spread, not a crowded product wall.</h2>
           <p class="section-copy">
-            This starter uses a server endpoint for lookbook data, so you can connect real products later without
-            rewriting the page architecture.
+            This is where clients meet the tone of the brand: strong print, dramatic proportion, soft movement, and
+            silhouette-led pieces that feel ready for a fitting, a celebration, or a statement entrance.
           </p>
         </div>
-        <LookbookGrid :items="previewLooks" />
+        <EditorialShowcase :items="previewLooks" />
       </div>
     </section>
 
-    <section class="section">
+    <StyleDirections />
+
+    <section class="section scene">
+      <div class="container studio-grid">
+        <article class="panel studio-panel studio-panel--dark">
+          <span class="eyebrow eyebrow--light">What the studio offers</span>
+          <h2 class="section-title studio-panel__title">A fashion studio for custom dressing, memorable events, and expressive personal style.</h2>
+          <p class="studio-copy">
+            Whether the client wants a statement birthday look, an event piece, a dramatic kimono, or a sharp menswear
+            outfit, the studio can move across moods while keeping the finishing polished and intentional.
+          </p>
+          <div class="studio-tags">
+            <span>Custom occasionwear</span>
+            <span>Birthday looks</span>
+            <span>Statement kimonos</span>
+            <span>Menswear details</span>
+            <span>Made-to-measure edits</span>
+          </div>
+        </article>
+
+        <article class="panel studio-panel">
+          <span class="eyebrow">Studio edits</span>
+          <h2 class="section-title">Explore the house through clear style categories.</h2>
+          <ul class="action-list">
+            <li>Print-led dresses and coordinated looks with strong colour and graphic detail</li>
+            <li>Structured pieces for birthdays, formal dinners, and standout occasion dressing</li>
+            <li>Fluid kimonos, overlays, and softer silhouettes with movement and ease</li>
+            <li>Menswear edits with clean lines, bold detailing, and easy styling potential</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section scene">
       <div class="container cards">
         <article class="panel action-panel">
-          <span class="eyebrow">What to connect next</span>
-          <h2 class="section-title">Shopify pieces to wire in after the design pass.</h2>
-          <ul class="action-list">
-            <li>Products for consultation deposits, ready-to-buy garments, and gift cards</li>
-            <li>Metaobjects or metafields for fabrics, fit notes, care, and production timelines</li>
-            <li>Cart and checkout routes once the storefront token is available</li>
-          </ul>
+          <span class="eyebrow">For custom orders</span>
+          <h2 class="section-title">Book first, refine the brief, then move into the right piece.</h2>
+          <p class="section-copy">
+            Most custom garments begin with a fitting request so the silhouette, timing, and fabric direction are all
+            clear before production starts.
+          </p>
+          <div class="button-row action-panel__actions">
+            <NuxtLink to="/book-fitting" class="button button--secondary">Book a fitting</NuxtLink>
+            <NuxtLink to="/collections" class="button button--ghost">Browse all collections</NuxtLink>
+          </div>
         </article>
 
         <article class="panel dark-panel">
-          <span class="tag">Recommended model</span>
-          <h2>Consultation-led ecommerce</h2>
+          <span class="tag">Ready to wear</span>
+          <h2>Selected pieces can still be available to buy directly when the style is already defined.</h2>
           <p>
-            Treat most couture garments as narrative-driven pages with a fitting CTA, and reserve direct checkout for
-            deposits, selected ready-made pieces, or curated capsule drops.
+            Signature kimonos, menswear details, and selected event pieces can sit alongside custom commissions so the
+            site serves both appointment-led and ready-to-order clients.
           </p>
         </article>
 
         <article class="panel action-panel">
-          <span class="eyebrow">Nuxt advantage</span>
-          <h2 class="section-title">You keep full control of the luxury frontend.</h2>
+          <span class="eyebrow">Inside the studio</span>
+          <h2 class="section-title">Expect a process that is personal, collaborative, and detail-driven.</h2>
           <p class="section-copy">
-            Nuxt handles the premium visual layer while Shopify still owns products, carts, checkout, discounts, and
-            order management.
+            Clients are not pushed through a generic checkout flow. They are guided through conversation, fittings, and
+            final adjustments so the piece lands exactly as intended.
           </p>
-          <NuxtLink to="/cart" class="button button--secondary">See the cart plan</NuxtLink>
         </article>
       </div>
     </section>
@@ -67,7 +102,8 @@ const previewLooks = computed(() => lookbook.value?.slice(0, 3) || [])
 }
 
 .action-panel,
-.dark-panel {
+.dark-panel,
+.studio-panel {
   padding: 1.5rem;
 }
 
@@ -75,11 +111,60 @@ const previewLooks = computed(() => lookbook.value?.slice(0, 3) || [])
   min-height: 100%;
 }
 
-.dark-panel {
-  color: #fff5eb;
+.action-panel__actions {
+  margin-top: 1.25rem;
+}
+
+.studio-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1rem;
+}
+
+.studio-panel--dark {
+  color: #fffdf7;
   background:
-    linear-gradient(150deg, rgba(36, 24, 19, 0.97), rgba(96, 56, 31, 0.94)),
-    #241813;
+    radial-gradient(circle at top right, rgba(207, 91, 134, 0.24), transparent 28%),
+    linear-gradient(150deg, rgba(20, 20, 26, 0.98), rgba(11, 38, 44, 0.98));
+}
+
+.eyebrow--light {
+  color: rgba(255, 253, 247, 0.78);
+}
+
+.studio-panel__title {
+  color: #fffdf7;
+}
+
+.studio-copy {
+  margin: 0;
+  color: rgba(255, 253, 247, 0.78);
+  line-height: 1.75;
+}
+
+.studio-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.3rem;
+}
+
+.studio-tags span {
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 253, 247, 0.86);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+}
+
+.dark-panel {
+  color: #fffdf7;
+  background:
+    linear-gradient(150deg, rgba(18, 87, 96, 0.98), rgba(16, 124, 136, 0.94)),
+    var(--surface-strong);
 }
 
 .dark-panel h2 {
@@ -91,7 +176,7 @@ const previewLooks = computed(() => lookbook.value?.slice(0, 3) || [])
 
 .dark-panel p {
   margin: 0;
-  color: rgba(255, 245, 235, 0.76);
+  color: rgba(255, 253, 247, 0.8);
   line-height: 1.7;
 }
 
@@ -102,8 +187,13 @@ const previewLooks = computed(() => lookbook.value?.slice(0, 3) || [])
   line-height: 1.8;
 }
 
+.action-list li::marker {
+  color: var(--gold-deep);
+}
+
 @media (max-width: 960px) {
-  .process-head {
+  .process-head,
+  .studio-grid {
     grid-template-columns: 1fr;
   }
 }

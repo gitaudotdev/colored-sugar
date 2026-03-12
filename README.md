@@ -1,6 +1,6 @@
-# Colored Sugar
+# Coloured Sugar
 
-Nuxt 3 starter for Colored Sugar, a luxury tailor in Nairobi using Shopify as the commerce backend.
+Nuxt 3 starter for Coloured Sugar, a luxury tailor in Nairobi using Shopify as the commerce backend.
 
 ## What is included
 

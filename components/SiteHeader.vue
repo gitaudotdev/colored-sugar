@@ -2,17 +2,17 @@
   <header class="site-header">
     <div class="container site-header__inner">
       <NuxtLink to="/" class="site-header__brand">
-        <span class="site-header__crest">MN</span>
+        <span class="site-header__crest">CS</span>
         <span>
-          <strong>Colored Sugar</strong>
-          <small>Nairobi bespoke tailoring</small>
+          <strong>Coloured Sugar</strong>
+          <small>By Nicole Muchai</small>
         </span>
       </NuxtLink>
 
       <nav class="site-header__nav" aria-label="Primary">
+        <NuxtLink to="/collections">Collections</NuxtLink>
         <NuxtLink to="/lookbook">Lookbook</NuxtLink>
         <NuxtLink to="/book-fitting">Book a fitting</NuxtLink>
-        <NuxtLink to="/cart">Cart flow</NuxtLink>
       </nav>
     </div>
   </header>
@@ -24,8 +24,8 @@
   top: 0;
   z-index: 30;
   backdrop-filter: blur(18px);
-  background: rgba(248, 241, 229, 0.72);
-  border-bottom: 1px solid rgba(36, 24, 19, 0.08);
+  background: rgba(250, 247, 241, 0.78);
+  border-bottom: 1px solid rgba(22, 54, 60, 0.08);
 }
 
 .site-header__inner {
@@ -49,38 +49,65 @@
 
 .site-header__brand strong {
   font-family: var(--font-display);
-  font-size: 1.25rem;
-  letter-spacing: 0.04em;
+  font-size: 1.38rem;
+  letter-spacing: 0.05em;
 }
 
 .site-header__brand small {
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   font-size: 0.66rem;
 }
 
 .site-header__crest {
-  width: 2.9rem;
-  height: 2.9rem;
+  width: 3.15rem;
+  height: 3.15rem;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: var(--ink);
-  color: #fff5eb;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--accent) 0 52%, var(--gold) 52% 100%);
+  color: #fffdf8;
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.1rem;
+  box-shadow: 0 18px 32px rgba(17, 74, 82, 0.16);
 }
 
 .site-header__nav {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.4rem;
   color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.74rem;
+}
+
+.site-header__nav a {
+  position: relative;
+  padding-bottom: 0.25rem;
+}
+
+.site-header__nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
 }
 
 .site-header__nav .router-link-active {
   color: var(--ink);
+}
+
+.site-header__nav a:hover::after,
+.site-header__nav .router-link-active::after {
+  transform: scaleX(1);
 }
 
 @media (max-width: 820px) {
